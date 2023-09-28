@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { StyleSheet,View} from 'react-native';
 import Home from './src/Home';
 import Jogo from './src/Jogo';
+import Jogo2 from './src/jogo2';
+import Jogo3 from './src/jogo3';
 
 
 
@@ -33,6 +35,12 @@ export default function App() {
     )}
       {checkScreen("jogo") &&(
       <Jogo changeScreen={changeScreen}/>
+    )}
+    {checkScreen("jogo2") &&(
+      <Jogo2 changeScreen={changeScreen}/>
+    )}
+    {checkScreen("jogo3") &&(
+      <Jogo3 changeScreen={changeScreen}/>
     )}
       </View>
       

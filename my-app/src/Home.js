@@ -6,11 +6,23 @@ export default function Home({mudarNomeJogadores, changeScreen}) {
   const[player1, setPlayer1]= useState("");
   const[player2, setPlayer2]= useState("");
 
-  const handleClick = (event) =>{
-    alert(player1+" x "+ player2)
-    mudarNomeJogadores(player1, player2)
-    changeScreen(player1, player2)
+  function handleClick() {
+    alert(player1 + " x " + player2);
+    mudarNomeJogadores(player1, player2);
+    changeScreen("jogo");
   }
+  function handleClick2() {
+    alert(player1 + " x " + player2);
+    mudarNomeJogadores(player1, player2);
+    changeScreen("jogo2");
+  }
+  function handleClick3() {
+    alert(player1 + " x " + player2);
+    mudarNomeJogadores(player1, player2);
+    changeScreen("jogo3");
+  }
+
+  
 
   return (
     <View style={styles.container}>
@@ -27,10 +39,15 @@ export default function Home({mudarNomeJogadores, changeScreen}) {
       placeholder="Player 2" 
       onChangeText={setPlayer2}/>
 
-      <Button title="botao" onPress={handleClick}/>
+      <Button title="Jogo da Velha" onPress={handleClick}/>
+      <Button title="Jogo da Forca" onPress={handleClick2}/>
+      <Button title="Jogo da Memoria" onPress={handleClick3}/>
     </View>
   );
+  
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

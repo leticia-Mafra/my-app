@@ -1,83 +1,154 @@
-import { useState } from 'react';
-import { View, Text, Button} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 
-export default function Jogo(){
+export default function Jogo(props) {
+    const [tabuleiro, setTabuleiro] = useState(Array(9).fill(null));
+    const [X, setX] = useState(true);
+    const [vencedor, setVencedor] = useState(null);
 
-    const handleClick =()=>{
-        props.changeScreen("home")
+    const { player1, player2 } = props;
+
+    useEffect(() => {
+    if (vencedor) {
+    Alert.alert(`Vencedor: ${vencedor}`, `Parabéns, ${vencedor === 'X' ? player1 : player2}`);}
+    }, [vencedor, player1, player2]);
+
+    const handleClick = (index) => {
+    if (vencedor || tabuleiro[index]) {
+    return;
     }
+    
 
-    const [b1, setB1] = useState(" ");
-    const [b2, setB2] = useState(" ");
-    const [b3, setB3] = useState(" ");
-    const [b4, setB4] = useState(" ");
-    const [b5, setB5] = useState(" ");
-    const [b6, setB6] = useState(" ");
-    const [b7, setB7] = useState(" ");
-    const [b8, setB8] = useState(" ");
-    const [b9, setB9] = useState(" ");
+    const novoTabuleiro = [...tabuleiro];
+    novoTabuleiro[index] = X ? 'X' : 'O';
+    setTabuleiro(novoTabuleiro);
+    setX(!X);
+    verifVencedor(novoTabuleiro);
+    };
+    
 
+    const verifVencedor = (tabuleiro) => {
+        const combVence = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+      
+        for (const combinacao of combVence) {
+          const [a, b, c] = combinacao;
+          if (tabuleiro[a] && tabuleiro[a] === tabuleiro[b] && tabuleiro[a] === tabuleiro[c]) {
+            setVencedor(tabuleiro[a]);
+            return;
+          }
+        }
+      
+        if (!tabuleiro.includes(null)) {
+          setVencedor('Empate');
+        }
+      };
+
+const handleRestart = () => {
+ setTabuleiro(Array(9).fill(null));
+  setX(true);
+ setVencedor(null);
+ };
+
+ const renderSquare = (index) => {
+  return (
+    <View style={styles.botao}>
+   <Button
+  title={tabuleiro[index]}
+   onPress={() => handleClick(index)}
+    style={styles.quadrado}
+  disabled={tabuleiro[index] || vencedor}
+ />
  
-    const handleClickB1 = () => {
-        if(b1 === "X") {
-            setB1("O");
-        } else {setB1("X")}
-    }
-    const handleClickB2 = () => {
-        if(b2 === "X") {
-            setB2("O");
-        } else {setB2("X")}
-    }
-    const handleClickB3 = () => {
-        if(b3 === "X") {
-            setB3("O");
-        } else {setB3("X")}
-    }
+ </View>
+   );
+ };
 
-    const handleClickB4 = () => {
-        if(b4 === "X") {
-              setB4("O");
-        } else {setB4("X")}
-    }
-    const handleClickB5 = () => {
-        if(b5 === "X") {
-            setB5("O");
-        } else {setB5("X")}
-    }
-    const handleClickB6 = () => {
-        if(b6 === "X") {
-           setB6("O");
-        } else {setB6("X")}
-    }
 
-    const handleClickB7 = () => {
-        if(b7 === "X") {
-              setB7("O");
-        } else {setB7("X")}
-    }
-    const handleClickB8 = () => {
-        if(b8 === "X") {
-            setB8("O");
-        } else {setB8("X")}
-    }
-    const handleClickB9 = () => {
-        if(b9 === "X") {
-           setB9("O");
-        } else {setB9("X")}
-    }
-    return (
-        <View style={styles.principal}>
-            <Button title='Voltar' onPress={handleClick}/>
-            <Text>Jogo</Text>
-            <Button title={b1} onPress={handleClickB1}/>
-            <Button title={b2} onPress={handleClickB2}/>
-            <Button title={b3} onPress={handleClickB3}/>
-            <Button title={b1} onPress={handleClickB4}/>
-            <Button title={b2} onPress={handleClickB5}/>
-            <Button title={b3} onPress={handleClickB6}/>
-            <Button title={b1} onPress={handleClickB7}/>
-            <Button title={b2} onPress={handleClickB8}/>
-            <Button title={b3} onPress={handleClickB9}/>
-        </View>
-    );
+
+ const renderStatus = () => {
+   if (vencedor) {
+     return `Vencedor: ${vencedor}`;
+  } else {
+     return `Vez do jogador: ${X ? 'X' : 'O'}`;
+   }
+  };
+  
+
+  
+
+ return (
+    <View style={styles.containerJogo}>
+        <Text style={styles.status}>{renderStatus()}</Text>
+    <View style={styles.tabuleiro}>
+    <View style={styles.linha}>
+          {renderSquare(0)}
+          {renderSquare(1)}
+          {renderSquare(2)}
+    </View>
+    <View style={styles.linha}>
+          {renderSquare(3)}
+          {renderSquare(4)}
+          {renderSquare(5)}
+    </View>
+    <View style={styles.linha}>
+          {renderSquare(6)}
+          {renderSquare(7)}
+          {renderSquare(8)}
+    </View>
+    </View>
+      <Button title="Reiniciar" onPress={handleRestart} />
+      <Button title="Voltar" onPress={() => props.changeScreen("home")} />
+    </View>
+  );
 }
+
+
+const styles = StyleSheet.create({
+
+    
+
+    botao: {
+        width: 100,
+        height: 50,
+        margin: 5, 
+        justifyContent: 'center',  
+  alignItems: 'center',     
+  backgroundColor: '#3498db', 
+  borderRadius: 10,   
+  borderWidth: 2,       
+  borderColor: '#2980b9',
+      },
+      
+      
+  containerJogo: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabuleiro: {
+    flexDirection: 'column',
+  },
+  linha: {
+    flexDirection: 'row',
+  },
+  
+  quadrado: {
+    width: 100,
+    height: 100,
+    fontSize: 36,
+  },
+  status: {
+    fontSize: 24,
+    marginBottom: 20,
+ },
+
+}); 
