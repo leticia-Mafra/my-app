@@ -19,7 +19,7 @@ export default function Home({mudarNomeJogadores, changeScreen}) {
   function handleClick3() {
     alert(player1 + " x " + player2);
     mudarNomeJogadores(player1, player2);
-    changeScreen("jogo3");
+    changeScreen("JogoMemoria");
   }
 
   

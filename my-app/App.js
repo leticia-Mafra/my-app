@@ -4,7 +4,7 @@ import { StyleSheet,View} from 'react-native';
 import Home from './src/Home';
 import Jogo from './src/Jogo';
 import Jogo2 from './src/Jogo2';
-import Jogo3 from './src/Jogo3';
+import JogoMemoria from './src/JogoMemoria';
 
 
 
@@ -39,8 +39,8 @@ export default function App() {
     {checkScreen("jogo2") &&(
       <Jogo2 changeScreen={changeScreen}/>
     )}
-    {checkScreen("Jogo3") &&(
-      <Jogo3 changeScreen={changeScreen}/>
+    {checkScreen("JogoMemoria") &&(
+      <JogoMemoria changeScreen={changeScreen}/>
     )}
       </View>
       

@@ -38,9 +38,17 @@ export default function JogoForca(props) {
         setVencedor('vitoria');
       }
 
-      if (tentativas === 1) {
-        setVencedor('derrota');
+      if (tentativas === 1 && vencedor !== 'vitoria') {
+        acabei();
       }
+    }
+  };
+
+  const acabei = () => {
+    if (palavra.split('').every(char => char === ' ' || letrasUsadas.includes(char))) {
+      setVencedor('vitoria');
+    } else {
+      setVencedor('derrota');
     }
   };
 
@@ -65,6 +73,7 @@ export default function JogoForca(props) {
           5- Por fim, clique no botão "Tentar Letra", e assim vai seguindo o jogo
         </Text>
       </View>
+
       <Text style={styles.status}>Tentativas restantes: {tentativas}</Text>
       <Text style={styles.palavraEscondida}>
         {palavra
@@ -72,6 +81,7 @@ export default function JogoForca(props) {
           .map((char) => (letrasUsadas.includes(char) ? char : '_'))
           .join(' ')}
       </Text>
+
       {inputVisivel ? (
         <TextInput
           style={styles.input}
@@ -91,13 +101,21 @@ export default function JogoForca(props) {
           <Button title="Escolher" onPress={escolherPalavra} style={styles.escolherBotao} />
         </View>
       )}
-       <View style={styles.buttonsContainer}>
-    <Button title="Tentar Letra" onPress={tentarLetra} />
-    <Button title="Iniciar Jogo" onPress={iniciarJogo} />
-    <Button title="Voltar" onPress={() => props.changeScreen("home")} />
-  </View>
-  {vencedor === 'vitoria' && <Text style={styles.acertou}>Acertou!</Text>}
-</View>
+
+      <View style={styles.buttonsContainer}>
+        <Button title="Tentar Letra" onPress={tentarLetra} />
+        <Button title="Iniciar Jogo" onPress={iniciarJogo} />
+        <Button title="Voltar" onPress={() => props.changeScreen("home")} />
+        <Button title="Acabei" onPress={acabei} />
+      </View>
+
+      {vencedor === 'vitoria' && (
+        <Text style={styles.acertou}>Vitória!</Text>
+      )}
+      {vencedor === 'derrota' && (
+        <Text style={styles.acertou}>Derrota!</Text>
+      )}
+    </View>
   );
 }
 
@@ -118,9 +136,9 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '60%',
-    marginBottom: 20,
+    justifyContent: 'space-evenly',
+    width: '100%',
+    marginTop: 20,
   },
   Passos: {
     fontSize: 16,
