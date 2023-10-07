@@ -9,7 +9,7 @@ const nomesAnimais = [
   'Panda', 'Hiena', 'Camelo', 'Foca', 'Pinguim'
 ];
 
-export default function JogoMemoria() {
+export default function JogoMemoria(changeScreen, currentPlayer, players, setCurrentPlayer ) {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [matches, setMatches] = useState(0);
@@ -59,7 +59,7 @@ export default function JogoMemoria() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.matchesText}>Matches: {matches}</Text>
+      <Text style={styles.matchesText}>Acertos: {matches}</Text>
       <View style={styles.cardContainer}>
         {cards.map((card) => (
           <TouchableOpacity

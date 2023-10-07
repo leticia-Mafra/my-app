@@ -70,7 +70,9 @@ export default function JogoForca(props) {
           {'\n'}
           4- Durante o jogo você colocará uma letra na caixinha "Digite uma letra"
           {'\n'}
-          5- Por fim, clique no botão "Tentar Letra", e assim vai seguindo o jogo
+          5- Clique no botão "Tentar Letra", e assim vai seguindo o jogo
+          {'\n'}
+          6-Por fim, quando acertar todas as letra, clique no botao "Acabei".
         </Text>
       </View>
 

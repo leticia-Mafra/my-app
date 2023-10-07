@@ -10,40 +10,46 @@ import JogoMemoria from './src/JogoMemoria';
 
 export default function App() {
 
-  const[player1, setPlayer1]= useState("");
-  const[player2, setPlayer2]= useState("");
-  const[screen, setScreen] = useState("home")
-  
+  const [players, setPlayers] = useState({ player1: "", player2: "" });
+  const [currentPlayer, setCurrentPlayer] = useState("player1");
+  const [screen, setScreen] = useState("home");
 
-  const checkScreen = (checkScreen) => checkScreen === screen;
-
-  const setPlayers = (nome1, nome2) => {
-    setPlayer1(nome1);
-    setPlayer2(nome2);
-  }
-
- const changeScreen = (newScreen)=> setScreen(newScreen);
-  
+  const changeScreen = (newScreen, players) => {
+    setPlayers(players);
+    setCurrentPlayer("player1");
+    setScreen(newScreen);
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {checkScreen("home") &&(
-       <Home 
-      mudarNomeJogadores={setPlayers}
-      changeScreen={changeScreen}/>
-    )}
-      {checkScreen("jogo") &&(
-      <Jogo changeScreen={changeScreen}/>
-    )}
-    {checkScreen("jogo2") &&(
-      <Jogo2 changeScreen={changeScreen}/>
-    )}
-    {checkScreen("JogoMemoria") &&(
-      <JogoMemoria changeScreen={changeScreen}/>
-    )}
-      </View>
-      
+      {screen === "home" && <Home changeScreen={changeScreen} />}
+      {screen === "jogo" && (
+        
+        <Jogo
+          changeScreen={changeScreen}
+          currentPlayer={currentPlayer}
+          players={players}
+          setCurrentPlayer={setCurrentPlayer}
+        />
+      )}
+      {screen === "jogo2" && (
+        <Jogo2
+          changeScreen={changeScreen}
+          currentPlayer={currentPlayer}
+          players={players}
+          setCurrentPlayer={setCurrentPlayer}
+        />
+      )}
+      {screen === "JogoMemoria" && (
+        <JogoMemoria
+          changeScreen={changeScreen}
+          currentPlayer={currentPlayer}
+          players={players}
+          setCurrentPlayer={setCurrentPlayer}
+        />
+      )}
+    </View>
   );
 }
 

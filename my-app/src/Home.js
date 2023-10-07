@@ -1,67 +1,84 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View ,TextInput ,Button} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function Home({mudarNomeJogadores, changeScreen}) {
+export default function Home({ changeScreen }) {
+  const [player1, setPlayer1] = useState("");
+  const [player2, setPlayer2] = useState("");
 
-  const[player1, setPlayer1]= useState("");
-  const[player2, setPlayer2]= useState("");
-
-  function handleClick() {
-    alert(player1 + " x " + player2);
-    mudarNomeJogadores(player1, player2);
-    changeScreen("jogo");
+  function handleClick(gameType) {
+    if (player1 && player2) {
+      changeScreen(gameType, { player1, player2 });
+    } else {
+      alert("Por favor, insira o nome de ambos os jogadores.");
+    }
   }
-  function handleClick2() {
-    alert(player1 + " x " + player2);
-    mudarNomeJogadores(player1, player2);
-    changeScreen("jogo2");
-  }
-  function handleClick3() {
-    alert(player1 + " x " + player2);
-    mudarNomeJogadores(player1, player2);
-    changeScreen("JogoMemoria");
-  }
-
-  
 
   return (
     <View style={styles.container}>
-     
-      <Text>Nome Player 1: {player1}</Text>
+      <Text style={styles.header}>Bem-vindo ao Jogo Multiplayer</Text>
+
       <TextInput
-      placeholder="Player 1" 
-       style={styles.input} 
-      onChangeText={setPlayer1}/>
+        style={styles.input}
+        placeholder="Player 1"
+        onChangeText={setPlayer1}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Player 2"
+        onChangeText={setPlayer2}
+      />
 
-      <Text>Nome Player 2: {player2}</Text>
-      <TextInput 
-      style={styles.input} 
-      placeholder="Player 2" 
-      onChangeText={setPlayer2}/>
-
-      <Button title="Jogo da Velha" onPress={handleClick}/>
-      <Button title="Jogo da Forca" onPress={handleClick2}/>
-      <Button title="Jogo da Memoria" onPress={handleClick3}/>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleClick("jogo")}
+      >
+        <Text style={styles.buttonText}>Jogo da Velha</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleClick("jogo2")}
+      >
+        <Text style={styles.buttonText}>Jogo da Forca</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleClick("JogoMemoria")}
+      >
+        <Text style={styles.buttonText}>Jogo da Memória</Text>
+      </TouchableOpacity>
     </View>
   );
-  
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    width :"80%",
-    height: 20,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 1,
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+    fontWeight: 'bold',
   },
-
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginBottom: 20,
+    fontSize: 18,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: '#4a148c',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
 });

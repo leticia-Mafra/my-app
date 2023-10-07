@@ -1,108 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-export default function JogoForca(props) {
-  const [palavra, setPalavra] = useState('');
-  const [letra, setLetra] = useState('');
-  const [tentativas, setTentativas] = useState(6);
-  const [letrasUsadas, setLetrasUsadas] = useState([]);
-  const [vencedor, setVencedor] = useState(null);
-  const [inputVisivel, setInputVisivel] = useState(false);
-  const [palavraEscolhida, setPalavraEscolhida] = useState('');
+export default function JogoDaVelha({ changeScreen }) {
+  const [board, setBoard] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
 
-  useEffect(() => {
-    if (vencedor === 'vitoria') {
-      Alert.alert('Parabéns!', 'Você venceu o jogo!');
-    } else if (vencedor === 'derrota') {
-      Alert.alert('Fim de jogo', `A palavra era: ${palavra}`);
+  const handleClick = (index) => {
+    const squares = [...board];
+
+    if (calculateWinner(squares) || squares[index]) {
+      return;
     }
-  }, [vencedor, palavra]);
 
-  const iniciarJogo = () => {
-    setVencedor(null);
-    setTentativas(6);
-    setLetrasUsadas([]);
-    setLetra('');
-    setInputVisivel(true);
+    squares[index] = xIsNext ? 'X' : 'O';
+
+    setBoard(squares);
+    setXIsNext(!xIsNext);
   };
 
-  const tentarLetra = () => {
-    if (letra && !letrasUsadas.includes(letra)) {
-      setLetrasUsadas([...letrasUsadas, letra]);
-
-      if (!palavra.includes(letra)) {
-        setTentativas(tentativas - 1);
-      }
-
-      if (!palavra.split('').some((char) => !letrasUsadas.includes(char))) {
-        setVencedor('vitoria');
-      }
-
-      if (tentativas === 1) {
-        setVencedor('derrota');
-      }
-    }
+  const renderSquare = (index) => {
+    return (
+      <TouchableOpacity
+        style={styles.square}
+        onPress={() => handleClick(index)}
+      >
+        <Text style={styles.squareText}>{board[index]}</Text>
+      </TouchableOpacity>
+    );
   };
 
-  const escolherPalavra = () => {
-    setPalavra(palavraEscolhida.toLowerCase());
-    setInputVisivel(false);
-    setPalavraEscolhida('');
-  };
+  const winner = calculateWinner(board);
+  let status;
+
+  if (winner) {
+    status = `Vencedor: ${winner}`;
+    Alert.alert('Fim de Jogo', `O jogador ${winner} venceu!`);
+  } else if (board.every((square) => square)) {
+    status = 'Velha!';
+    Alert.alert('Fim de Jogo', 'O jogo empatou!');
+  } else {
+    status = `Próximo jogador: ${xIsNext ? 'X' : 'O'}`;
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.instrucoes}>
-        <Text style={styles.Passos}>
-          1- Digite uma palavra no espaço "Escolha uma palavra"
-          {'\n'}
-          2- Clique no botão "Escolher"
-          {'\n'}
-          3- Clique no botão "Iniciar Jogo"
-          {'\n'}
-          4- Durante o jogo você colocará uma letra na caixinha "Digite uma letra"
-          {'\n'}
-          5- Por fim, clique no botão "Tentar Letra", e assim vai seguindo o jogo
-        </Text>
+      <Text style={styles.status}>{status}</Text>
+      <View style={styles.board}>
+        {Array.from({ length: 3 }, (_, i) => (
+          <View key={i} style={styles.boardRow}>
+            {Array.from({ length: 3 }, (_, j) =>
+              renderSquare(i * 3 + j)
+            )}
+          </View>
+        ))}
       </View>
-
-      <Text style={styles.status}>Tentativas restantes: {tentativas}</Text>
-      <Text style={styles.palavraEscondida}>
-        {palavra
-          .split('')
-          .map((char) => (letrasUsadas.includes(char) ? char : '_'))
-          .join(' ')}
-      </Text>
-
-      {inputVisivel ? (
-        <TextInput
-          style={styles.input}
-          placeholder="Digite uma letra"
-          maxLength={1}
-          onChangeText={(text) => setLetra(text.toLowerCase())}
-          value={letra}
-        />
-      ) : (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Escolha uma palavra"
-            onChangeText={(text) => setPalavraEscolhida(text.toLowerCase())}
-            value={palavraEscolhida}
-          />
-          <Button title="Escolher" onPress={escolherPalavra} style={styles.escolherBotao} />
-        </View>
-      )}
-
-      <View style={styles.buttonsContainer}>
-        <Button title="Tentar Letra" onPress={tentarLetra} />
-        <Button title="Iniciar Jogo" onPress={iniciarJogo} />
-        <Button title="Voltar" onPress={() => props.changeScreen("home")} />
-      </View>
-
-      {vencedor === 'vitoria' && letrasUsadas.length === palavra.split('').filter(char => char !== ' ').length && (
-        <Text style={styles.acertou}>Vitória!</Text>
-      )}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => changeScreen('home')}
+      >
+        <Text style={styles.buttonText}>Voltar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -113,48 +70,57 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  instrucoes: {
-    backgroundColor: '#cacae2',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  escolherBotao: {
-    marginLeft: 10,
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '60%',
-    marginBottom: 20,
-  },
-  Passos: {
-    fontSize: 16,
-  },
   status: {
     fontSize: 24,
     marginBottom: 20,
   },
-  palavraEscondida: {
-    fontSize: 36,
+  board: {
     marginBottom: 20,
   },
-  inputContainer: {
+  boardRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
   },
-  input: {
-    width: '80%',
-    height: 40,
+  square: {
+    width: 60,
+    height: 60,
     borderWidth: 1,
-    borderColor: 'gray',
-    marginBottom: 20,
-    fontSize: 18,
-    paddingHorizontal: 10,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  acertou: {
+  squareText: {
     fontSize: 24,
-    color: 'green',
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+
+  return null;
+}
