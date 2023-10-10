@@ -3,12 +3,17 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 export default function Jogo2({ palavra }) {
 =======
 export default function Jogo2(props) {
   const [palavra, setPalavra] = useState('');
 >>>>>>> Stashed changes
+=======
+export default function JogoForca(props) {
+  const [palavra, setPalavra] = useState('');
+>>>>>>> parent of 25033cc (e)
 =======
 export default function JogoForca(props) {
   const [palavra, setPalavra] = useState('');
