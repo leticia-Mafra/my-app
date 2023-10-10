@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
-
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const nomesAnimais = [
   'Leão', 'Tigre', 'Elefante', 'Rinoceronte', 'Gorila',
@@ -10,7 +9,7 @@ const nomesAnimais = [
   'Panda', 'Hiena', 'Camelo', 'Foca', 'Pinguim'
 ];
 
-export default function JogoMemoria(props ) {
+export default function JogoMemoria(changeScreen, currentPlayer, players, setCurrentPlayer ) {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [matches, setMatches] = useState(0);
@@ -79,7 +78,6 @@ export default function JogoMemoria(props ) {
           </TouchableOpacity>
         ))}
       </View>
-      <Button title="Voltar" onPress={() => props.changeScreen("home")} />
     </View>
   );
 }
