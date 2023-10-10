@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function Home({ changeScreen }) {
   const [player1, setPlayer1] = useState("");
@@ -15,6 +15,7 @@ export default function Home({ changeScreen }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.background}></View>
       <Text style={styles.header}>Bem-vindo ao Jogo Multiplayer</Text>
 
       <TextInput
@@ -34,12 +35,14 @@ export default function Home({ changeScreen }) {
       >
         <Text style={styles.buttonText}>Jogo da Velha</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() => handleClick("jogo2")}
+        onPress={() => handleClick("jogo2")} 
       >
         <Text style={styles.buttonText}>Jogo da Forca</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleClick("JogoMemoria")}
@@ -55,6 +58,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#E6E6FA', 
+    zIndex: -1,
   },
   header: {
     fontSize: 24,

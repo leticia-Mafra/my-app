@@ -1,18 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet,View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import Home from './src/Home';
 import Jogo from './src/Jogo';
 import Jogo2 from './src/Jogo2';
+import EscolherPalavra from './src/EscolherPalavra';
 import JogoMemoria from './src/JogoMemoria';
 
-
-
 export default function App() {
-
   const [players, setPlayers] = useState({ player1: "", player2: "" });
   const [currentPlayer, setCurrentPlayer] = useState("player1");
   const [screen, setScreen] = useState("home");
+  const [palavraEscolhida, setPalavraEscolhida] = useState(null);
 
   const changeScreen = (newScreen, players) => {
     setPlayers(players);
@@ -22,10 +21,13 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      {screen === "home" && <Home changeScreen={changeScreen} />}
+      {screen === "home" && (
+        <Home
+          changeScreen={changeScreen}
+          setPalavraEscolhida={setPalavraEscolhida}
+        />
+      )}
       {screen === "jogo" && (
-        
         <Jogo
           changeScreen={changeScreen}
           currentPlayer={currentPlayer}
@@ -39,6 +41,7 @@ export default function App() {
           currentPlayer={currentPlayer}
           players={players}
           setCurrentPlayer={setCurrentPlayer}
+          palavra={palavraEscolhida}
         />
       )}
       {screen === "JogoMemoria" && (
@@ -49,10 +52,16 @@ export default function App() {
           setCurrentPlayer={setCurrentPlayer}
         />
       )}
+      {screen === "escolherPalavra" && (
+        <EscolherPalavra
+          onPalavraEscolhida={setPalavraEscolhida}
+          changeScreen={changeScreen}
+        />
+      )}
+      <StatusBar style="auto" />
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -61,12 +70,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    width :"80%",
-    height: 20,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 1,
-  },
-
 });
