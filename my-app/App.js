@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet,View} from 'react-native';
+import React, { useState } from 'react';
 import Home from './src/Home';
 import Jogo from './src/Jogo';
 import Jogo2 from './src/Jogo2';
+import EscolherPalavra from './EscolherPalavra';
 import JogoMemoria from './src/JogoMemoria';
 
 
@@ -13,6 +15,7 @@ export default function App() {
   const [players, setPlayers] = useState({ player1: "", player2: "" });
   const [currentPlayer, setCurrentPlayer] = useState("player1");
   const [screen, setScreen] = useState("home");
+  const [palavraEscolhida, setPalavraEscolhida] = useState(null);
 
   const changeScreen = (newScreen, players) => {
     setPlayers(players);
@@ -22,6 +25,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      {!palavraEscolhida && (
+        <EscolherPalavra onPalavraEscolhida={setPalavraEscolhida} />
+      )}
+      {palavraEscolhida && (
+        <JogoForcaSimples palavra={palavraEscolhida} />
+      )}
       <StatusBar style="auto" />
       {screen === "home" && <Home changeScreen={changeScreen} />}
       {screen === "jogo" && (
@@ -40,17 +49,20 @@ export default function App() {
           players={players}
           setCurrentPlayer={setCurrentPlayer}
         />
+        
       )}
       {screen === "JogoMemoria" && (
-        <JogoMemoria
-          changeScreen={changeScreen}
-          currentPlayer={currentPlayer}
-          players={players}
-          setCurrentPlayer={setCurrentPlayer}
-        />
-      )}
+  <JogoMemoria
+    changeScreen={changeScreen}
+    currentPlayer={currentPlayer}
+    players={players}
+    setCurrentPlayer={setCurrentPlayer}
+  />
+  
+)}
     </View>
   );
+  
 }
 
 

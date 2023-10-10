@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-<<<<<<< HEAD
 <<<<<<< Updated upstream
 export default function Jogo2({ palavra }) {
 =======
 export default function Jogo2(props) {
   const [palavra, setPalavra] = useState('');
 >>>>>>> Stashed changes
-=======
-export default function JogoForca(props) {
-  const [palavra, setPalavra] = useState('');
->>>>>>> parent of 25033cc (e)
   const [letra, setLetra] = useState('');
   const [tentativas, setTentativas] = useState(6);
   const [letrasUsadas, setLetrasUsadas] = useState([]);
   const [vencedor, setVencedor] = useState(null);
-  const [inputVisivel, setInputVisivel] = useState(false);
-  const [palavraEscolhida, setPalavraEscolhida] = useState('');
 
   useEffect(() => {
     if (vencedor === 'vitoria') {
@@ -26,14 +19,6 @@ export default function JogoForca(props) {
       Alert.alert('Fim de jogo', `A palavra era: ${palavra}`);
     }
   }, [vencedor, palavra]);
-
-  const iniciarJogo = () => {
-    setVencedor(null);
-    setTentativas(6);
-    setLetrasUsadas([]);
-    setLetra('');
-    setInputVisivel(true);
-  };
 
   const tentarLetra = () => {
     if (letra && !letrasUsadas.includes(letra)) {
@@ -61,30 +46,8 @@ export default function JogoForca(props) {
     }
   };
 
-  const escolherPalavra = () => {
-    setPalavra(palavraEscolhida.toLowerCase());
-    setInputVisivel(false);
-    setPalavraEscolhida('');
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.instrucoes}>
-        <Text style={styles.Passos}>
-          1- Digite uma palavra no espaço "Escolha uma palavra"
-          {'\n'}
-          2- Clique no botão "Escolher"
-          {'\n'}
-          3- Clique no botão "Iniciar Jogo"
-          {'\n'}
-          4- Durante o jogo você colocará uma letra na caixinha "Digite uma letra"
-          {'\n'}
-          5- Clique no botão "Tentar Letra", e assim vai seguindo o jogo
-          {'\n'}
-          6-Por fim, quando acertar todas as letra, clique no botao "Acabei".
-        </Text>
-      </View>
-
       <Text style={styles.status}>Tentativas restantes: {tentativas}</Text>
       <Text style={styles.palavraEscondida}>
         {palavra
@@ -93,32 +56,15 @@ export default function JogoForca(props) {
           .join(' ')}
       </Text>
 
-      {inputVisivel ? (
-        <TextInput
-          style={styles.input}
-          placeholder="Digite uma letra"
-          maxLength={1}
-          onChangeText={(text) => setLetra(text.toLowerCase())}
-          value={letra}
-        />
-      ) : (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Escolha uma palavra"
-            onChangeText={(text) => setPalavraEscolhida(text.toLowerCase())}
-            value={palavraEscolhida}
-          />
-          <Button title="Escolher" onPress={escolherPalavra} style={styles.escolherBotao} />
-        </View>
-      )}
+      <TextInput
+        style={styles.input}
+        placeholder="Digite uma letra"
+        maxLength={1}
+        onChangeText={(text) => setLetra(text.toLowerCase())}
+        value={letra}
+      />
 
-      <View style={styles.buttonsContainer}>
-        <Button title="Tentar Letra" onPress={tentarLetra} />
-        <Button title="Iniciar Jogo" onPress={iniciarJogo} />
-        <Button title="Voltar" onPress={() => props.changeScreen("home")} />
-        <Button title="Acabei" onPress={acabei} />
-      </View>
+      <Button title="Tentar Letra" onPress={tentarLetra} />
 
       {vencedor === 'vitoria' && (
         <Text style={styles.acertou}>Vitória!</Text>
@@ -136,35 +82,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  instrucoes: {
-    backgroundColor: '#cacae2',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  escolherBotao: {
-    marginLeft: 10,
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: '100%',
-    marginTop: 20,
-  },
-  Passos: {
-    fontSize: 16,
-  },
   status: {
     fontSize: 24,
     marginBottom: 20,
   },
   palavraEscondida: {
     fontSize: 36,
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 20,
   },
   input: {
