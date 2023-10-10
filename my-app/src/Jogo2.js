@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
+<<<<<<< Updated upstream
 export default function Jogo2({ palavra }) {
+=======
+export default function Jogo2(props) {
+  const [palavra, setPalavra] = useState('');
+>>>>>>> Stashed changes
   const [letra, setLetra] = useState('');
   const [tentativas, setTentativas] = useState(6);
   const [letrasUsadas, setLetrasUsadas] = useState([]);
