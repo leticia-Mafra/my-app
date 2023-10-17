@@ -1,40 +1,63 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 
-export default function EscolherPalavra({ onPalavraEscolhida }) {
-  const [palavra, setPalavra] = useState('');
+export default function ({
+    changeScreen,
+    mudarPalavra
+}) {
+    const handleClickJogar = () => {
 
-  const handleEscolherPalavra = () => {
-    if (palavra.trim() !== '') {
-      onPalavraEscolhida(palavra.toLowerCase());
+        if (palavra.length != 0) {
+            mudarPalavra(palavra)
+            changeScreen("Jogo2")
+        } else {
+            alert("Digie um palavra para começar")
+        }
+
     }
-  };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite uma palavra"
-        onChangeText={setPalavra}
-      />
-      <Button title="Escolher Palavra" onPress={handleEscolherPalavra} />
-    </View>
-  );
+    const handleClickVoltar = () => {
+        changeScreen("Home")
+    }
+
+    const [palavra, setPalavra] = useState("")
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.background}></View>
+            <Text>
+                Escolha uma palavra para a forca:
+            </Text>
+            <TextInput style={styles.input} placeholder='digite um palavra' onChangeText={setPalavra} />
+            <Button title='Jogar' onPress={handleClickJogar} />
+            <Button title='Voltar para o menu' onPress={handleClickVoltar} />
+
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
-    marginBottom: 20,
-    fontSize: 18,
-    paddingHorizontal: 10,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5
+    },
+    background: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#E6E6FA',
+        zIndex: -1,
+      },
+    input: {
+        borderWidth: 1, 
+    borderColor: '#000',
+        padding: 1,
+        backgroundColor: '#fff',
+    },
+
 });

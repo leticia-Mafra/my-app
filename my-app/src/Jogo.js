@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-export default function JogoDaVelha({ changeScreen }) {
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Button } from 'react-native';
+
+export default function Jogo({ changeScreen, player1, player2, nextScreen}) {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
 
@@ -44,6 +45,7 @@ export default function JogoDaVelha({ changeScreen }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.background}></View>
       <Text style={styles.status}>{status}</Text>
       <View style={styles.board}>
         {Array.from({ length: 3 }, (_, i) => (
@@ -55,11 +57,15 @@ export default function JogoDaVelha({ changeScreen }) {
         ))}
       </View>
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => changeScreen('home')}
+        style={styles.Button}
+        onPress={() => changeScreen('Home')}
       >
         <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>
+      <Text style={styles.titulo}>Jogo da Velha</Text>
+      <Text style={styles.paragrafo}>
+        Vez do jogador: {xIsNext ? player1 : player2}
+      </Text>
     </View>
   );
 }
@@ -80,6 +86,15 @@ const styles = StyleSheet.create({
   boardRow: {
     flexDirection: 'row',
   },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#E6E6FA',
+    zIndex: -1,
+  },
   square: {
     width: 60,
     height: 60,
@@ -91,13 +106,18 @@ const styles = StyleSheet.create({
   squareText: {
     fontSize: 24,
   },
-  button: {
-    backgroundColor: '#007BFF',
+  paragrafo: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  Button: {
+    backgroundColor: '#4a148c',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   buttonText: {
+    backgroundColor: '#4a148c',
     color: 'white',
     fontSize: 16,
   },

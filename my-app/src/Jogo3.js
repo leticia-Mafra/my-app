@@ -10,7 +10,7 @@ const nomesAnimais = [
   'Panda', 'Hiena', 'Camelo', 'Foca', 'Pinguim'
 ];
 
-export default function JogoMemoria(props ) {
+export default function Jogo3({ changeScreen, player1, player2 } ) {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [matches, setMatches] = useState(0);
@@ -60,6 +60,7 @@ export default function JogoMemoria(props ) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.background}></View>
       <Text style={styles.matchesText}>Acertos: {matches}</Text>
       <View style={styles.cardContainer}>
         {cards.map((card) => (
@@ -67,7 +68,7 @@ export default function JogoMemoria(props ) {
             key={card.id}
             style={[
               styles.card,
-              { backgroundColor: card.flipped ? '#8e44ad' : '#e6e6e6' },
+              { backgroundColor: card.flipped ? '#8e44ad' : '#4a148c' },
             ]}
             onPress={() => handleCardClick(card)}
           >
@@ -79,7 +80,11 @@ export default function JogoMemoria(props ) {
           </TouchableOpacity>
         ))}
       </View>
-      <Button title="Voltar" onPress={() => props.changeScreen("home")} />
+      
+      <Button title="Voltar" onPress={() => changeScreen("Home")}
+      style={styles.voltarButton} />
+      <Text style={styles.Button}></Text>
+      <Text>Jogadores: {player1} x {player2}</Text>
     </View>
   );
 }
@@ -94,6 +99,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
     color: '#8e44ad',
+  },
+  Button: {
+    backgroundColor: '#4a148c',
+   
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: ' #30BA4E ',
+    zIndex: -1,
+  },
+  voltarButton: {
+    backgroundColor: '#165524 ', 
+    marginTop: 10, 
   },
   cardContainer: {
     flexDirection: 'row',
