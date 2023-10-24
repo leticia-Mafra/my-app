@@ -35,7 +35,7 @@ export default function App() {
           setCurrentPlayer={setCurrentPlayer}
         />
       )}
-      {screen === "jogo2" && (
+      {screen === "Jogo2" && (
         <Jogo2
           changeScreen={changeScreen}
           currentPlayer={currentPlayer}

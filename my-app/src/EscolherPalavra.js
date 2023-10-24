@@ -12,6 +12,8 @@ export default function EscolherPalavra({ onPalavraEscolhida }) {
 
   return (
     <View style={styles.container}>
+    
+
       <TextInput
         style={styles.input}
         placeholder="Digite uma palavra"
