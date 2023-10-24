@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-export default function Jogo2({ palavra }) {
+export default function Jogo2({ palavra, changeScreen }) {
   const [letra, setLetra] = useState('');
   const [tentativas, setTentativas] = useState(6);
   const [letrasUsadas, setLetrasUsadas] = useState([]);
@@ -43,6 +43,7 @@ export default function Jogo2({ palavra }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.background}></View>
       <Text style={styles.status}>Tentativas restantes: {tentativas}</Text>
       <Text style={styles.palavraEscondida}>
         {palavra
@@ -67,6 +68,9 @@ export default function Jogo2({ palavra }) {
       {vencedor === 'derrota' && (
         <Text style={styles.acertou}>Derrota!</Text>
       )}
+
+      
+      <Button title="Voltar" onPress={() => changeScreen("Home")} />
     </View>
   );
 }
@@ -76,6 +80,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#E6E6FA',
+    zIndex: -1,
   },
   status: {
     fontSize: 24,
