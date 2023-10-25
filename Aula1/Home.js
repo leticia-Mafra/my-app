@@ -7,7 +7,7 @@ export default function useMemo(){
 
     useEffect(()=>{
         console.log("Alterar contador")
-    }, [contador1]);
+    }, [contador1]);0
 
     useEffect(()=>{
         console.log("Alterar contador 2")
