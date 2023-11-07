@@ -1,22 +1,24 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-import HomeScreen from './src/HomeScreens';
-import CadastrarListaScreen from './src/CadastrarListaScreen';
-import CadastrarItemScreen from './src/CadastrarItemScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import ListScreen from '/src/ListScreen';
+import EditListScreen from '/src/EditListScreen';
+import ItemListScreen from '/src/ItemListScreen';
+import EditItemScreen from '/src/EditItemScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Cadastrar Lista" component={CadastrarListaScreen} />
-        <Stack.Screen name="Cadastrar Itbhem" component={CadastrarItemScreen} />
+      <Stack.Navigator initialRouteName="List">
+        <Stack.Screen name="List" component={ListScreen} />
+        <Stack.Screen name="EditList" component={EditListScreen} />
+        <Stack.Screen name="ItemList" component={ItemListScreen} />
+        <Stack.Screen name="EditItem" component={EditItemScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default App;
